@@ -1,6 +1,106 @@
-Sidebar
-Header
-Chat area
-Messages
-Input areaa
-Send button
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Clone</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="new-chat">+ New Chat</button>
+
+            <div class="chat-history">
+                <p>💬 Previous Chat 1</p>
+                <p>💬 Previous Chat 2</p>
+                <p>💬 Previous Chat 3</p>
+            </div>
+
+            <div class="sidebar-bottom">
+                <p>⚙ Settings</p>
+                <p>❓ Help</p>
+            </div>
+        </aside>
+
+
+        <!-- Main Chat Area -->
+        <main class="main-chat">
+
+            <!-- Header -->
+            <header class="chat-header">
+                <h2>ChatGPT Clone</h2>
+            </header>
+
+
+            <!-- Chat Window -->
+            <section class="chat-window">
+
+                <!-- Welcome Message -->
+                <div class="message assistant-message">
+                    <div class="avatar">AI</div>
+                    <div class="message-content">
+                        <strong>Assistant</strong>
+                        <p>Hello! How can I help you today?</p>
+                    </div>
+                </div>
+
+
+                <!-- User Message -->
+                <div class="message user-message">
+                    <div class="avatar">You</div>
+                    <div class="message-content">
+                        <strong>You</strong>
+                        <p>Hello! This is my ChatGPT Clone.</p>
+                    </div>
+                </div>
+
+
+                <!-- Assistant Message -->
+                <div class="message assistant-message">
+                    <div class="avatar">AI</div>
+                    <div class="message-content">
+                        <strong>Assistant</strong>
+                        <p>Welcome! This is a static chatbot interface.</p>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- Input Area -->
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    placeholder="Message ChatGPT..."
+                    aria-label="Message input"
+                >
+
+                <button class="send-button">
+                    ➤
+                </button>
+
+            </div>
+
+
+            <!-- Footer -->
+            <footer>
+                <p>ChatGPT Clone • Static UI Project</p>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+
+</body>
+</html>
