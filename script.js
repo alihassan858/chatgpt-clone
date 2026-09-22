@@ -19,42 +19,57 @@ function sendMessage() {
     `;
 
     chatBox.appendChild(userMessage);
-
-    // Clear input box
     input.value = "";
 
-    // Temporary AI reply
+    // Loading message
+    const loadingMessage = document.createElement("div");
+    loadingMessage.className = "message bot-message";
+    loadingMessage.innerHTML = `
+        <strong>AI:</strong>
+        <span>Thinking... 🤔</span>
+    `;
+
+    chatBox.appendChild(loadingMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Temporary AI response
     setTimeout(() => {
-
-        const botMessage = document.createElement("div");
-        botMessage.className = "message bot-message";
-
-        botMessage.innerHTML = `
+        loadingMessage.innerHTML = `
             <strong>AI:</strong>
             <span>Thanks for your message! 🤖</span>
         `;
 
-        chatBox.appendChild(botMessage);
-
-        // Automatically scroll down
         chatBox.scrollTop = chatBox.scrollHeight;
 
-    }, 500);
+        saveChat();
+    }, 1000);
 
-    // Scroll down
-    chatBox.scrollTop = chatBox.scrollHeight;
+    saveChat();
 }
 
+// Save chat history
+function saveChat() {
+    localStorage.setItem("chatHistory", chatBox.innerHTML);
+}
+
+// Load chat history
+function loadChat() {
+    const savedChat = localStorage.getItem("chatHistory");
+
+    if (savedChat) {
+        chatBox.innerHTML = savedChat;
+    }
+}
 
 // Send button
 sendButton.addEventListener("click", sendMessage);
 
-
-// Press Enter to send
+// Enter key
 input.addEventListener("keydown", function(event) {
-
     if (event.key === "Enter") {
         sendMessage();
     }
-
 });
+
+// Load previous messages
+loadChat();
