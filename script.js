@@ -1,17 +1,60 @@
-// Static ChatGPT Clone
-// This project is a non-functional UI design.
+const input = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
+const chatBox = document.getElementById("chat-box");
 
-const sendButton = document.querySelector(".send-button");
-const messageInput = document.querySelector(".input-area input");
+function sendMessage() {
+    const message = input.value.trim();
 
-sendButton.addEventListener("click", function () {
-    // The button is intentionally non-functional.
-    console.log("Send button clicked.");
-});
-
-messageInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        // The interface is static, so no message is sent.
-        console.log("Enter key pressed.");
+    if (message === "") {
+        return;
     }
+
+    // User message
+    const userMessage = document.createElement("div");
+    userMessage.className = "message user-message";
+
+    userMessage.innerHTML = `
+        <strong>You:</strong>
+        <span>${message}</span>
+    `;
+
+    chatBox.appendChild(userMessage);
+
+    // Clear input box
+    input.value = "";
+
+    // Temporary AI reply
+    setTimeout(() => {
+
+        const botMessage = document.createElement("div");
+        botMessage.className = "message bot-message";
+
+        botMessage.innerHTML = `
+            <strong>AI:</strong>
+            <span>Thanks for your message! 🤖</span>
+        `;
+
+        chatBox.appendChild(botMessage);
+
+        // Automatically scroll down
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    }, 500);
+
+    // Scroll down
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+// Send button
+sendButton.addEventListener("click", sendMessage);
+
+
+// Press Enter to send
+input.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+
 });
