@@ -1,26 +1,54 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.get("/", (req, res) => {
-    res.send("ChatGPT Clone Backend is running!");
-});
-
-app.post("/chat", (req, res) => {
-    const userMessage = req.body.message;
-
-    res.json({
-        reply: "Your backend received: " + userMessage
-    });
-});
+const http = require("http");
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
+const server = http.createServer((req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
+    if (req.method === "GET" && req.url === "/") {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("ChatGPT Clone Backend is running!");
+        return;
+    }
+
+    if (req.method === "POST" && req.url === "/chat") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk;
+        });
+
+        req.on("end", () => {
+            let data = {};
+
+            try {
+                data = JSON.parse(body);
+            } catch (error) {
+                data = {};
+            }
+
+            res.writeHead(200, { "Content-Type": "application/json" });
+
+            res.end(JSON.stringify({
+                reply: "Your backend received: " + (data.message || "")
+            }));
+        });
+
+        return;
+    }
+
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.end("Not Found");
+});
+
+server.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
 });
