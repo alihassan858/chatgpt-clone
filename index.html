@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>My ChatGPT Clone</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,35 +11,31 @@
 
     <div class="chat-container">
 
-        <!-- Header -->
         <header class="chat-header">
-            <h1>🤖 My ChatGPT</h1>
-            <p>AI Assistant</p>
+            <div>
+                <h1>🤖 My ChatGPT</h1>
+                <p>AI Assistant</p>
+            </div>
+
+            <button id="clear-button">Clear Chat</button>
         </header>
 
-        <!-- Chat Messages -->
         <main id="chat-box" class="chat-box">
-
             <div class="message bot-message">
                 <strong>AI:</strong>
                 <span>Hello! 👋 How can I help you?</span>
+                <small>Now</small>
             </div>
-
         </main>
 
-        <!-- Message Input -->
         <div class="input-area">
-
             <input
                 type="text"
                 id="user-input"
                 placeholder="Type your message..."
             >
 
-            <button id="send-button">
-                Send
-            </button>
-
+            <button id="send-button">Send</button>
         </div>
 
     </div>
