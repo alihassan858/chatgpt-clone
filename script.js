@@ -1,6 +1,16 @@
 const input = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
+const clearButton = document.getElementById("clear-button");
 const chatBox = document.getElementById("chat-box");
+
+function getTime() {
+    const now = new Date();
+
+    return now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
 
 function sendMessage() {
     const message = input.value.trim();
@@ -16,35 +26,39 @@ function sendMessage() {
     userMessage.innerHTML = `
         <strong>You:</strong>
         <span>${message}</span>
+        <small>${getTime()}</small>
     `;
 
     chatBox.appendChild(userMessage);
     input.value = "";
 
-    // Loading message
+    // Thinking message
     const loadingMessage = document.createElement("div");
     loadingMessage.className = "message bot-message";
+
     loadingMessage.innerHTML = `
         <strong>AI:</strong>
         <span>Thinking... 🤔</span>
+        <small>${getTime()}</small>
     `;
 
     chatBox.appendChild(loadingMessage);
     chatBox.scrollTop = chatBox.scrollHeight;
+
+    saveChat();
 
     // Temporary AI response
     setTimeout(() => {
         loadingMessage.innerHTML = `
             <strong>AI:</strong>
             <span>Thanks for your message! 🤖</span>
+            <small>${getTime()}</small>
         `;
 
         chatBox.scrollTop = chatBox.scrollHeight;
 
         saveChat();
     }, 1000);
-
-    saveChat();
 }
 
 // Save chat history
@@ -61,6 +75,19 @@ function loadChat() {
     }
 }
 
+// Clear chat
+clearButton.addEventListener("click", function() {
+    localStorage.removeItem("chatHistory");
+
+    chatBox.innerHTML = `
+        <div class="message bot-message">
+            <strong>AI:</strong>
+            <span>Hello! 👋 How can I help you?</span>
+            <small>${getTime()}</small>
+        </div>
+    `;
+});
+
 // Send button
 sendButton.addEventListener("click", sendMessage);
 
@@ -71,5 +98,5 @@ input.addEventListener("keydown", function(event) {
     }
 });
 
-// Load previous messages
+// Load previous chat
 loadChat();
