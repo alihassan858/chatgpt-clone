@@ -3,16 +3,16 @@ const sendButton = document.getElementById("send-button");
 const clearButton = document.getElementById("clear-button");
 const chatBox = document.getElementById("chat-box");
 
-function getTime() {
-    const now = new Date();
+const BACKEND_URL = "https://chatgpt-clone-production-9381.up.railway.app";
 
-    return now.toLocaleTimeString([], {
+function getTime() {
+    return new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
     });
 }
 
-function sendMessage() {
+async function sendMessage() {
     const message = input.value.trim();
 
     if (message === "") {
@@ -45,28 +45,45 @@ function sendMessage() {
     chatBox.appendChild(loadingMessage);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    saveChat();
+    try {
+        const response = await fetch(BACKEND_URL + "/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: message
+            })
+        });
 
-    // Temporary AI response
-    setTimeout(() => {
+        const data = await response.json();
+
         loadingMessage.innerHTML = `
             <strong>AI:</strong>
-            <span>Thanks for your message! 🤖</span>
+            <span>${data.reply}</span>
             <small>${getTime()}</small>
         `;
 
-        chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+        loadingMessage.innerHTML = `
+            <strong>AI:</strong>
+            <span>❌ Backend connection error.</span>
+            <small>${getTime()}</small>
+        `;
 
-        saveChat();
-    }, 1000);
+        console.error(error);
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+    saveChat();
 }
 
-// Save chat history
+// Save chat
 function saveChat() {
     localStorage.setItem("chatHistory", chatBox.innerHTML);
 }
 
-// Load chat history
+// Load chat
 function loadChat() {
     const savedChat = localStorage.getItem("chatHistory");
 
@@ -98,5 +115,4 @@ input.addEventListener("keydown", function(event) {
     }
 });
 
-// Load previous chat
 loadChat();
